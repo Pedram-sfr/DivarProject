@@ -1,0 +1,74 @@
+<div class="col-lg-12 d-flex align-items-stretch">
+  <div class="card w-100">
+    <%if(showBack){%>
+      <div class="p-3 w-100">
+        <a href="/post/create" class="btn btn-danger">بازگشت به همه ی دسته ها</a>
+      </div>
+      <%}%>
+        <div class="p-3">
+          <%if(!options){%>
+            <%if(categories && categories.length> 0){%>
+              <ul>
+                <%categories.forEach(category=>{%>
+                  <li>
+                    <a href="/post/create?slug=<%=category.slug%>" class="w-100 p-3 d-block bg-light text-dark">
+                      <span class="ti ti-<%=category.icon%> nav-small-cap-icon fs-4"></span>
+                      <span>
+                        <%=category.name%>
+                      </span>
+                    </a>
+                  </li>
+
+                  <%})%>
+              </ul>
+              <%}%>
+                <%}else{%>
+                  <form action="/post/create" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="lat" id="lat">
+                    <input type="hidden" name="lng" id="lng">
+                    <input type="hidden" name="category" id="category" value="<%=category%>">
+                    <label>موقعیت مکانی آگهی</label>
+                    <div class="p-2">
+                      <div id="map-element" class="w-100" style="height: 400px"></div>
+                    </div>
+                    <label>عکس آگهی</label>
+                    <div class="p-2">
+                      <input type="file" name="images" multiple class="form-control" />
+                    </div>
+                    <label>عنوان آگهی</label>
+                    <div class="p-2">
+                      <input type="text" name="title_post" placeholder="عنوان آگهی" class="form-control" />
+                    </div>
+                    <label>توضیحات آگهی</label>
+                    <div class="p-2">
+                      <textarea class="form-control" name="desc_post" placeholder="توضیحات آگهی"></textarea>
+                    </div>
+                    <%options.forEach(option=> {%>
+                      <label>
+                        <%=option.title%>
+                          <%=option.required?"*":""%>
+                      </label>
+                      <%if(option.type=="array" ){%>
+                        <div class="p-2">
+                          <select name="<%=option.title%>" class="form-select">
+                            <%option.enum.forEach(item=> {%>
+                              <option value="<%=item%>">
+                                <%=item%>
+                              </option>
+                              <%})%>
+                          </select>
+                        </div>
+                        <%}else{%>
+                          <div class="p-2">
+                            <input type="text" name="<%=option.title%>" placeholder="<%=option.guid%>"
+                              class="form-control">
+                          </div>
+
+                          <%}%>
+                            <%})%>
+                              <button type="submit" class="btn btn-success">انتشار آگهي</button>
+                  </form>
+                  <%}%>
+        </div>
+  </div>
+</div>

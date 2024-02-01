@@ -1,0 +1,55 @@
+<div class="container">
+    <div class="post ">
+      <nav></nav>
+      <div class="post-content ">
+        <div class="post-title">
+          <div class="post-title-h1"><%=post.title%></div>
+          <div class="post-title-location"><%=moment(post.createdAt).locale("fa").format(`jDD jMMMM HH:MM`)%> در <%=(post.city || post.province)%> ، <%=post.district%></div>
+        </div>
+        <div class="post-action">
+          <button class="post-button-action button" id="call-detail">اطلاعات تماس</button>
+          <button class="post-button-chat button">چت</button>
+
+          <img class="post-bookmark" src="./img/bookmark.svg" alt="" />
+          <img src="./img/share.svg" class="post-share" alt="" />
+        </div>
+        <div class="post-list">
+         
+          <hr />
+          <%for(key in post.options){%>
+            <div class="post-list-item post-row">
+              <div class="post-list-title"><%=key%></div>
+              <div class="post-list-detail"><%=post.options[key]%></div>
+            </div>
+            <hr />
+            <%}%>
+        </div>
+        <div class="post-description">
+          <h2 class="post-description-title">توضیحات</h2>
+          <div class="post-description-detail">
+            <p><%=post.content%></p>
+          </div>
+        </div>
+      </div>
+      <div class="post-image">
+        <div class="post-thumbnail">
+          <img src="/<%=post.images[0]%>" alt="" class="post-thumbnail"/>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const callDetailBtn = document.getElementById("call-detail");
+    callDetailBtn.addEventListener("click",(e)=>{
+        Swal.fire({
+            title: "شمارهٔ موبایل : <%=post.userMobile%>",
+            confirmButtonText: "تماس",
+          }).then((result)=>{
+            if(result.isConfirmed){
+                window.location.href = 'tel://<%=post.userMobile%>';
+            }
+          })
+    })
+  </script>
